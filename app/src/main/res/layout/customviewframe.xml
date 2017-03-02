@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cards"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        card_view:cardCornerRadius="4dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="46.25">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                app:srcCompat="@color/colorPrimary"
+                android:id="@+id/imageViewcard"
+                android:layout_centerHorizontal="true" />
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:id="@+id/userViewcard"
+                android:textAlignment="textStart"
+                android:layout_below="@id/imageViewcard"/>
+
+            <TextView
+                android:text="TextView"
+                android:textSize="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewcard"
+                android:textAlignment="textStart"
+                android:layout_below="@id/userViewcard"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewcard">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@android:drawable/star_big_on"
+                    android:id="@+id/likebtn"
+                    android:layout_weight="1"
+                    android:contentDescription="Like" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@android:drawable/ic_menu_view"
+                    android:id="@+id/inlargebtn"
+                    android:layout_weight="1"
+                    android:contentDescription="Large"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@android:drawable/stat_sys_download_done"
+                    android:id="@+id/downloadButton"
+                    android:layout_weight="1"
+                    android:contentDescription="Download"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1067875235257",
+    "firebase_url": "https://mywedding-41e0f.firebaseio.com",
+    "project_id": "mywedding-41e0f",
+    "storage_bucket": "mywedding-41e0f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067875235257:android:f9ee6a83c2e0c602",
+        "android_client_info": {
+          "package_name": "nirva.mywedding"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067875235257-jmnvi9nate7caurpkk1o5aqgni39shtp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nirva.mywedding",
+            "certificate_hash": "5932984a3d928eafa4be0868fd847c2b2fae1a72"
+          }
+        },
+        {
+          "client_id": "1067875235257-42nlaoctsorhl5mr5es7gsev1g6rrgmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEOUtE0eltWl-hbQ-f4QApcTOiTY2LPgA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067875235257-42nlaoctsorhl5mr5es7gsev1g6rrgmg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
