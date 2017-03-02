@@ -1,5 +1,7 @@
 package nirva.mywedding;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -20,6 +22,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
+import static nirva.mywedding.Setservice.Folder;
+import static nirva.mywedding.User_content.Activated;
+
 /**
  * Created by sanje on 01-03-2017.
  */
@@ -29,14 +34,18 @@ public class NewUpload extends AsyncTask<Object, ArrayList<String>, String> {
     StorageReference riversRef;
     String text,filename;
     String value;
+    String username;
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
     @Override
     protected String doInBackground(Object... objects) {
 
-
         filename=(String)objects[2];
         text=(String)objects[3];
+        username=(String)objects[4];
         storageRef = FirebaseStorage.getInstance().getReference();
-        riversRef = storageRef.child("upload/"+((Uri)objects[0]).getLastPathSegment());
+        riversRef = storageRef.child(Folder +"/upload/"+((Uri)objects[0]).getLastPathSegment());
+
 
         UploadTask uploadTasklight = riversRef.putFile(((Uri)objects[0]));
 
@@ -55,7 +64,7 @@ public class NewUpload extends AsyncTask<Object, ArrayList<String>, String> {
 
             }
         });
-        riversRef = storageRef.child("light/"+((Uri)objects[1]).getLastPathSegment());
+        riversRef = storageRef.child(Folder +"/light/"+((Uri)objects[1]).getLastPathSegment());
         UploadTask uploadTaskup = riversRef.putFile(((Uri)objects[0]));
 
 // Register observers to listen for when the download is done or if it fails
@@ -77,6 +86,7 @@ public class NewUpload extends AsyncTask<Object, ArrayList<String>, String> {
 
                 mDatabase.child("post").setValue(value);
                 Log.d("tag","value added: "+value);
+
 
 
             }
@@ -144,8 +154,8 @@ public class NewUpload extends AsyncTask<Object, ArrayList<String>, String> {
     }
     String getuser()
     {
-        FirebaseAuth user=FirebaseAuth.getInstance();
-        return user.getCurrentUser().getDisplayName();
+
+        return username;
 
     }
 }

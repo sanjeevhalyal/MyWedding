@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.security.AccessController.getContext;
+import static nirva.mywedding.Setservice.Folder;
 
 public class inlarge extends AppCompatActivity {
 
@@ -79,7 +80,7 @@ public class inlarge extends AppCompatActivity {
         StorageReference storageRef = storage.getReference();
 
         // Reference to an image file in Firebase Storage
-        StorageReference storageReference = storageRef.child("upload/"+img);
+        StorageReference storageReference = storageRef.child(Folder +"/upload/"+img);
 
         likesdisplay=(TextView)findViewById(R.id.Likenumber);
         ImageView largeimg=(ImageView)findViewById(R.id.largeimageViewcard);

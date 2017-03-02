@@ -16,11 +16,15 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 
+import java.util.List;
+
 public class Setservice extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Activated = "Activated";
+    public static final String Folderpref = "Folder";
+    public static  String Folder;
     private GoogleApiClient mGoogleApiClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class Setservice extends AppCompatActivity implements GoogleApiClient.OnC
             editor.commit();
             Log.d("app: ","Activated",null);
 
-        //startActivity(new Intent(Setservice.this, MainActivity.class));
+        //startActivity(new Intent(Setservice.this, ainActivity.class));
         //finish();
         }
         Log.d("app: ","Wrong link",null);
@@ -68,13 +72,22 @@ public class Setservice extends AppCompatActivity implements GoogleApiClient.OnC
                                     // account.
 
                                     // ...
+                                    Uri data = Uri.parse(deepLink);
+                                    List<String> al= data.getPathSegments();
+                                    String userfolder=al.get(0);
+                                    Folder=userfolder;
+
+
+                                    Log.d("user",userfolder);
                                     sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.putString(Activated, Activated);
+                                    editor.putString("User","User");
+                                    editor.putString(Folderpref,Folder);
                                     editor.commit();
                                     Log.d("app: ","Activated",null);
 
-                                    startActivity(new Intent(Setservice.this, MainActivity.class));
+                                    startActivity(new Intent(Setservice.this, SplashScreen.class));
 
                                     Log.d("TAG", "getInvitation: deep link found.");
                                     finish();

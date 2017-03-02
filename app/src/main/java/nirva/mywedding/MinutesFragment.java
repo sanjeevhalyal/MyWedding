@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,6 +27,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static nirva.mywedding.Setservice.Folder;
+import static nirva.mywedding.Setservice.Folderpref;
+import static nirva.mywedding.User_content.fab;
 
 
 public class MinutesFragment extends Fragment {
@@ -49,7 +53,7 @@ public class MinutesFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("View:"," started");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("post");
+        DatabaseReference myRef ;
         myListItems = new ArrayList<>();
         Log.d("Tag", " Refrenece captured");
 
@@ -63,7 +67,22 @@ public class MinutesFragment extends Fragment {
 
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String channel = (sharedpreferences.getString(Activated, ""));
+        Folder= (sharedpreferences.getString(Folderpref, ""));
+
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                fab.setVisibility(View.VISIBLE);
+                Log.d("Tag","Fab Visible");
+                return false;
+            }
+        });
+
         if(channel.equalsIgnoreCase(Activated)) {
+            myRef = database.getReference(Folder);
+
+
+
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

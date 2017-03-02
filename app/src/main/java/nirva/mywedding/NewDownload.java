@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+import static nirva.mywedding.Setservice.Folder;
 
 /**
  * Created by sanje on 01-03-2017.
@@ -62,7 +63,7 @@ public class NewDownload extends AsyncTask<Object, ArrayList<String>, String> {
         }
 
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference islandRef = storageRef.child("upload/" + img);
+            StorageReference islandRef = storageRef.child(Folder +"/upload/" + img);
 
             islandRef.getFile(fdl).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override

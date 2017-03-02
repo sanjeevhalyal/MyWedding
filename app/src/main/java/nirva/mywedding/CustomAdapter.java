@@ -40,6 +40,7 @@ import java.util.concurrent.ThreadFactory;
 import static android.R.attr.button;
 import static android.R.attr.targetActivity;
 import static android.content.Context.DOWNLOAD_SERVICE;
+import static nirva.mywedding.Setservice.Folder;
 
 /**
  * Created by sanje on 28-02-2017.
@@ -76,13 +77,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         final String img=_myListItems.get(position).getImage();
         final String usr=_myListItems.get(position).getUser();
         final String txt=_myListItems.get(position).getText();
+        final String like=_myListItems.get(position).getLike();
         final ViewHolder vh=holder;
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
         StorageReference storageRef = storage.getReference();
         // Reference to an image file in Firebase Storage
-        StorageReference storageReference = storageRef.child("light/"+img);
+        StorageReference storageReference = storageRef.child(Folder +"/light/"+img);
 
 
 // Load the image using Glide
@@ -90,7 +92,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 .load(storageReference)
                 .into(vh.img);
         vh.usr.setText(usr);
-        vh.txt.setText(usr);
+        vh.txt.setText(txt);
+        String liketmp=String.valueOf(like)+" Likes";
+        vh.likenum.setText(liketmp);
         vh.downloadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +103,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 nd.execute( storageDir, img,context);
             }
         });
+
         vh.likebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,6 +257,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     {
         public TextView txt;
         public TextView usr;
+        public TextView likenum;
         public ImageView img;
         public ImageButton downloadbtn,inlargebtn,likebtn;
 
@@ -260,6 +266,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             super(v);
             txt=(TextView) v.findViewById(R.id.textViewcard);
             usr=(TextView) v.findViewById(R.id.userViewcard);
+            likenum=(TextView) v.findViewById(R.id.Likenumber);
             img=(ImageView)v.findViewById(R.id.imageViewcard);
             downloadbtn=(ImageButton)v.findViewById(R.id.downloadButton);
             inlargebtn=(ImageButton)v.findViewById(R.id.inlargebtn);

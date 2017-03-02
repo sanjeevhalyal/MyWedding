@@ -13,7 +13,7 @@
         android:layout_height="300dp"
         card_view:cardCornerRadius="4dp"
         android:layout_marginBottom="2dp"
-        android:layout_weight="46.25">
+        android:layout_weight="43">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,24 +36,43 @@
                 android:textAlignment="textStart"
                 android:layout_below="@id/imageViewcard"/>
 
-            <TextView
-                android:text="TextView"
-                android:textSize="15dp"
+            <LinearLayout
+                android:id="@+id/lineartext"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewcard"
-                android:textAlignment="textStart"
-                android:layout_below="@id/userViewcard"/>
+                android:layout_below="@id/userViewcard">
+
+                <TextView
+                    android:text="TextView"
+                    android:textSize="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewcard"
+                    android:textAlignment="textStart"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:text="0 Likes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Likenumber"
+                    android:textAlignment="viewEnd"
+                    android:textStyle="normal|bold"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewcard">
+                android:layout_below="@id/lineartext">
 
                 <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     app:srcCompat="@android:drawable/star_big_on"
                     android:id="@+id/likebtn"
                     android:layout_weight="1"
@@ -61,7 +80,7 @@
 
                 <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     app:srcCompat="@android:drawable/ic_menu_view"
                     android:id="@+id/inlargebtn"
                     android:layout_weight="1"

@@ -1,8 +1,10 @@
 package nirva.mywedding;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,9 +41,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -74,8 +73,11 @@ public class User_content extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
     String mCurrentPhotoPath;
-    FirebaseAuth.AuthStateListener  mAuthListener;
-    FirebaseAuth mAuth;
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Activated = "Activated";
+    public static final String User= "User";
+    static FloatingActionButton fab;
 
     private void dispatchTakePictureIntent() throws IOException {
         Toast.makeText(User_content.this, "Starting camera", Toast.LENGTH_SHORT).show();
@@ -146,20 +148,7 @@ public class User_content extends AppCompatActivity {
             return true;
         }
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth=FirebaseAuth.getInstance();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,74 +168,66 @@ public class User_content extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("Tag", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("Tag", "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth user=FirebaseAuth.getInstance();
-                if(user.getCurrentUser().getDisplayName()==null) {
-                    LayoutInflater li = LayoutInflater.from(User_content.this);
-                    View getListItemView = li.inflate(R.layout.dialog_get_list_item, null);
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(User_content.this);
-                    alertDialogBuilder.setView(getListItemView);
-                    final EditText userInput = (EditText) getListItemView.findViewById(R.id.editTextDialogUserInput);
-                    alertDialogBuilder
-                            .setTitle("Enter your Display name ")
-                            .setCancelable(false)
-                            .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
-                                    // get user input and set it to result
-                                    // edit text
-                                    String listItemText = userInput.getText().toString();
-                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                String channel = (sharedpreferences.getString(Activated, ""));
+                String userstring = (sharedpreferences.getString(User, ""));
+                if(channel.equalsIgnoreCase(Activated)) {
+                    if (userstring.equalsIgnoreCase(User)) {
+                        LayoutInflater li = LayoutInflater.from(User_content.this);
+                        View getListItemView = li.inflate(R.layout.dialog_get_list_item, null);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(User_content.this);
+                        alertDialogBuilder.setView(getListItemView);
+                        Snackbar.make(view, "Starting Camera: Enter your display name", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        final EditText userInput = (EditText) getListItemView.findViewById(R.id.editTextDialogUserInput);
+                        alertDialogBuilder
+                                .setTitle("Enter your Display name ")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // get user input and set it to result
+                                        // edit text
+                                        String listItemText = userInput.getText().toString();
 
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(listItemText)
+                                        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        editor.putString(User, listItemText);
+                                        editor.commit();
 
-                                            .build();
+                                        try {
+                                            dispatchTakePictureIntent();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
 
-                                    user.updateProfile(profileUpdates)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Log.d("Tag", "User profile updated.");
-                                                    }
-                                                }
-                                            });
-
-                                }
-                            }).create()
-                            .show();
+                                    }
+                                }).create()
+                                .show();
 
 
+                    } else {
+
+                        try {
+                            Snackbar.make(view, "Starting Camera", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            dispatchTakePictureIntent();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                 }
                 else
                 {
-
-                    try {
-                        dispatchTakePictureIntent();
-                        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                    Snackbar.make(view, "Your App is not Activated", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
             }
         });
@@ -316,8 +297,10 @@ public class User_content extends AppCompatActivity {
                             Uri uri = Uri.fromFile(f);
                             Uri uripng = Uri.fromFile(fpng);
                             String filename=f.getName();
+                            sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                            String username = (sharedpreferences.getString(User, ""));
                             NewUpload up=new NewUpload();
-                            up.execute(uri,uripng,filename,listItemText);
+                            up.execute(uri,uripng,filename,listItemText,username);
 
 
 
@@ -351,15 +334,20 @@ public class User_content extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.Contact_Developer) {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"sanjeevhalyal@gmail.com"});
+            i.putExtra(Intent.EXTRA_SUBJECT, "Subject:Contacting You;)");
+
+            try {
+                startActivity(Intent.createChooser(i, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
-        else if(id==R.id.sign_out)
-        {
-            FirebaseAuth auth=FirebaseAuth.getInstance();
-            auth.signOut();
-            finish();
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -415,6 +403,7 @@ public class User_content extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
+
                     return new ToastFragment();
                 case 1:
                     return new MinutesFragment();

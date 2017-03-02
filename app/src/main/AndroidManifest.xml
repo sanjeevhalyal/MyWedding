@@ -9,7 +9,7 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/myweddingicon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -23,33 +23,28 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Email_method" />
-        <activity android:name=".Setservice">
+        <activity
+            android:name=".Setservice"
+            android:label="Activating">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <!-- android:pathPrefix="/post" -->
                 <data
                     android:host="hkl.com"
-                    android:pathPrefix="/startservice"
                     android:scheme="https" />
                 <!-- note that the leading "/" is required for pathPrefix -->
-
             </intent-filter>
         </activity>
         <activity
             android:name=".User_content"
-            android:label="@string/title_activity_user_content"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="MyWed"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".inlarge">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -62,7 +57,16 @@
                     android:scheme="hkl" />
             </intent-filter>
         </activity>
-        <activity android:name=".testactvitiyforgithub"></activity>
+        <activity android:name=".SplashScreen"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>
